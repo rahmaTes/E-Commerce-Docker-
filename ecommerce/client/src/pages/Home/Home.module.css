@@ -1,0 +1,13 @@
+.container {
+  padding: 1rem;
+}
+
+.link {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: blue;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,141 @@
+version: "3"
+services:
+  client:
+    build: ./client
+    container_name: client_container
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    networks:
+      - ecommerce-app
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+  users_service:
+    build: ./users_service
+    container_name: users_service_container
+    ports:
+      - "5000:5000"
+    networks:
+      - ecommerce-app
+    links:
+      - users_db
+    restart: on-failure
+    depends_on:
+      - users_db
+    volumes:
+      - ./users_service:/app
+      - /app/node_modules
+  users_db:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27013:27017"
+    networks:
+      - ecommerce-app
+    volumes:
+      - users-volume:/data/db
+  products_service:
+    build: ./products_service
+    container_name: products_service_container
+    ports:
+      - "5001:5001"
+    networks:
+      - ecommerce-app
+    links:
+      - products_db
+    restart: on-failure
+    depends_on:
+      - products_db
+    volumes:
+      - ./products_service:/app
+      - /app/node_modules
+  products_db:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27018:27017"
+    networks:
+      - ecommerce-app
+    volumes:
+      - products-volume:/data/db
+  weather_service:
+    build: ./weather_service
+    container_name: weather_service_container
+    ports:
+      - "5002:5002"
+    networks:
+      - ecommerce-app
+    volumes:
+      - ./weather_service:/app
+      - /app/node_modules
+  # quote_service: # Corrected service name
+  #   build: ./quote_service # Corrected indentation
+  #   container_name: quote_service_container # Corrected indentation
+  #   ports:
+  #     - "5007:5007"
+  #   networks:
+  #     - ecommerce-app
+  #   volumes:
+  #     - ./quote_service:/app
+  #     - /app/node_modules
+  shopping_cart_service:
+    build: ./shopping_cart_service
+    container_name: shopping_cart_service_container
+    ports:
+      - "5005:5005"
+    networks:
+      - ecommerce-app
+    links:
+      - shopping_cart_db
+    restart: on-failure
+    depends_on:
+      - shopping_cart_db
+    volumes:
+      - ./shopping_cart_service:/app
+      - /app/node_modules
+  shopping_cart_db:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27019:27017"
+    networks:
+      - ecommerce-app
+    volumes:
+      - shopping-cart-volume:/data/db
+  # Reviews
+  reviews_service: 
+    build: ./reviews_service 
+    container_name: reviews_service_container 
+    ports: 
+      - "5010:5010" 
+    networks: 
+      - ecommerce-app 
+    links: 
+      - reviews_db 
+    restart: on-failure 
+    depends_on: 
+      - reviews_db 
+    volumes: 
+      - ./reviews_service:/app 
+      - /app/node_modules 
+  reviews_db: 
+    image: mongo:3.6.19-xenial 
+    ports: 
+      - "27010:27017" 
+    networks: 
+      - ecommerce-app 
+    volumes: 
+      - reviews-volume:/data/db
+ 
+
+networks:
+  ecommerce-app:
+    driver: bridge
+volumes:
+  users-volume:
+    driver: local
+  products-volume:
+    driver: local
+  shopping-cart-volume:
+    driver: local
+  reviews-volume:
+    driver: local
+  

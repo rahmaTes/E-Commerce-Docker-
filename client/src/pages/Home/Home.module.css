@@ -1,0 +1,40 @@
+.container {
+  padding: 1rem;
+}
+
+.link {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: blue;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+
+.weather-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 2rem;
+  background-color: #b1bcf0;
+  padding: 2rem;
+}
+
+.weather-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.weather-description {
+  font-size: 1.5rem;
+  color: #666;
+}
+
+.weather-error {
+  color: red;
+  margin-top: 1rem;
+}
+
